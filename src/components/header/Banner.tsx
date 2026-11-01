@@ -26,7 +26,7 @@ export function Banner() {
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/events"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#12495c] px-6 py-3.5 font-semibold text-white shadow-lg shadow-green-600/20 transition hover:bg-[#1b708d]">
+              className="inline-flex items-center gap-2 rounded-xl from-[#102C35]  to bg-[#003d52] px-6 py-3.5 font-semibold text-white shadow-lg shadow-green-600/20 transition hover:bg-[#1b708d]">
               Explore Events
               <ArrowRight size={18} />
             </Link>
