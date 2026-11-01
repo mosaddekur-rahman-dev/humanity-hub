@@ -1,13 +1,13 @@
 import { ArrowRight, HandHeart, Heart, Users } from "lucide-react";
 import Link from "next/link";
-import { ImpactStats, Stats } from "./Stats";
+import { Stats } from "./Stats";
 
 export function Banner() {
   return (
     <section className="overflow-hidden bg-[#F0FDF4]">
       <div className="absolute -top-24 -right-20 h-80 w-80 rounded-full bg-green-200/40 blur-3xl" />
       <div className="absolute bottom-0 -left-20 h-72 w-72 rounded-full bg-emerald-200/30 blur-3xl" />
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 py-10 lg:grid-cols-2 lg:py-10">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 py-10 lg:grid-cols-2 lg:py-15">
         <div>
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-white px-4 py-2 text-sm font-medium text-[#102C35]">
             <Heart size={16} className="fill-[#1b708d]" />
@@ -80,6 +80,7 @@ export function Banner() {
         </div>
       </div>
       <Stats />
+      <hr />
     </section>
   );
 }

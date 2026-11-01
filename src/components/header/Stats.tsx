@@ -27,14 +27,14 @@ const stats = [
 
 export function Stats() {
   return (
-    <section className="bg-[#F0FDF4] py-2 sm:py-10">
+    <section className="bg-[#F0FDF4] py-2 sm:py-5 sm:pb-20">
       <div className="mx-auto max-w-6xl px-4">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           {stats.map((stat) => (
             <div
               key={stat.id}
               className="flex flex-col items-center justify-center
-              rounded-xl border border-gray-200 bg-white
+              rounded-xl border-2 border-[#102C35] bg-white
               px-3 py-4 shadow-sm transition-all duration-300
               hover:-translate-y-1 hover:shadow-md sm:py-5">
               <h3
