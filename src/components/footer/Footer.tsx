@@ -27,13 +27,11 @@ export function Footer() {
                 { name: "Home", href: "/" },
                 { name: "Explore Events", href: "/events" },
                 { name: "Create Event", href: "/events/create" },
-                { name: "About Us", href: "/about" },
-                { name: "Contact Us", href: "/contact" },
               ].map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="transition hover:pl-1 hover:bg-[#1b708d]">
+                    className="transition hover:pl-1 hover:underline">
                     {link.name}
                   </Link>
                 </li>
@@ -49,23 +47,15 @@ export function Footer() {
                 <span>Dhaka, Bangladesh</span>
               </li>
 
-              <li className="flex items-center gap-3">
-                <a href="mailto:hello@humanityhub.com" className="transition">
-                  hello@humanityhub.com
-                </a>
-              </li>
+              <li className="flex items-center gap-3">admin@humanityhub.com</li>
 
-              <li className="flex items-center gap-3">
-                <a href="tel:+8801000000000" className="transition ">
-                  +880 1000-000000
-                </a>
-              </li>
+              <li className="flex items-center gap-3">+880 1300-707411</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-center text-sm text-gray-400 md:flex-row">
-          <p>© {new Date().getFullYear()} HumanityHub. All rights reserved.</p>
+          <p>© 2026 HumanityHub. All rights reserved.</p>
 
           <p className="flex items-center gap-1.5">
             <span>❤️</span> Made by and for humanity.

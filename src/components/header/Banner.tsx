@@ -4,7 +4,7 @@ import { Stats } from "./Stats";
 
 export function Banner() {
   return (
-    <section className="overflow-hidden bg-[#F0FDF4]">
+    <section className="relative isolate w-full overflow-hidden bg-[#F0FDF4]">
       <div className="absolute -top-24 -right-20 h-80 w-80 rounded-full bg-green-200/40 blur-3xl" />
       <div className="absolute bottom-0 -left-20 h-72 w-72 rounded-full bg-emerald-200/30 blur-3xl" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 py-10 lg:grid-cols-2 lg:py-15">

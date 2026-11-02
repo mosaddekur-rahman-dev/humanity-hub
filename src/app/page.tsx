@@ -1,8 +1,8 @@
-import Features from "@/components/Features";
-import { Gallery } from "@/components/Gallery";
+import Features from "@/components/features/Features";
+import { Gallery } from "@/components/gallery/Gallery";
 import { Banner } from "@/components/header/Banner";
-import { Newsletter } from "@/components/Newsletter";
-import { UpcomingEvents } from "@/components/UpcomingEvents";
+import { Newsletter } from "@/components/newsletter/Newsletter";
+import { UpcomingEvents } from "@/components/upcomingEvents/UpcomingEvents";
 
 export default function Home() {
   return (
