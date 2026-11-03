@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { EventCard } from "/src/app/events/EventCard.tsx";
+import { EventCard, type EventDoc } from "@/app/events/EventCard";
 
 export async function UpcomingEvents() {
   const res = await fetch("http://localhost:8000/events");
-  const data = await res.json();
+  const data: EventDoc[] = await res.json();
 
   console.log(data);
   return (
@@ -19,7 +19,9 @@ export async function UpcomingEvents() {
         </Link>
       </div>
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 py-10 gap-8 pb-20">
-        {data.map((dat) => <EventCard key={dat._id} dat={dat} />).slice(0, 6)}
+        {data.slice(0, 6).map((dat: EventDoc) => (
+          <EventCard key={dat._id} dat={dat} />
+        ))}
       </div>
       <hr />
     </div>

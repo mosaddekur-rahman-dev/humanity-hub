@@ -47,7 +47,7 @@ export function Footer() {
                 <span>Dhaka, Bangladesh</span>
               </li>
 
-              <li className="flex items-center gap-3">admin@humanityhub.com</li>
+              <li className="flex items-center gap-3">admin@humanityhub.org</li>
 
               <li className="flex items-center gap-3">+880 1300-707411</li>
             </ul>

@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Oswald } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ToastContainer } from "react-toastify/unstyled";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -24,7 +23,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Navbar />
         {children}
         <Footer />
-        <ToastContainer />
       </body>
     </html>
   );

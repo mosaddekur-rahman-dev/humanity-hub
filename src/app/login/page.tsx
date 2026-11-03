@@ -140,18 +140,33 @@ export default function LoginForm() {
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}
-            className="h-11 w-full bg-[#12495c] text-base font-semibold text-white hover:bg-[#1b708d]">
+            className="h-11 w-full bg-[#12495c] text-base font-semibold text-white hover:bg-[#1b708d] cursor-pointer">
             {form.formState.isSubmitting ? "Logging in..." : "Login"}
           </Button>
         </FieldGroup>
       </form>
+      <div className="flex justify-between items-center gap-3 mt-8">
+        <div className="h-0.5 w-30 bg-gray-300 "></div>
+        <p className="text-center">OR CONTINUE WITH</p>
+        <div className="h-0.5 w-30 bg-gray-300 "></div>
+      </div>
+      <button className="btn flex gap-2 justify-center items-center cursor-pointer w-full  mt-8 bg-[#F0FDF4] py-2 rounded-sm border border-gray-400">
+        <Image
+          src="/images/google logo.webp"
+          alt="google logo"
+          width={10}
+          height={10}
+          className="w-5 h-5"
+        />
+        <p>CONTINUE WITH GOOGLE</p>
+      </button>
 
-      <p className="mt-6 text-center text-sm text-muted-foreground">
+      <p className="mt-5 text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link
           href="/register"
           className="font-semibold text-[#065e7c] hover:underline">
-          Sign up
+          Resigter here
         </Link>
       </p>
     </div>
