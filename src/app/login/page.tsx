@@ -63,7 +63,6 @@ export default function LoginForm() {
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8">
         <FieldGroup>
-          {/* Email */}
           <Controller
             name="email"
             control={form.control}
@@ -91,7 +90,6 @@ export default function LoginForm() {
             )}
           />
 
-          {/* Password */}
           <Controller
             name="password"
             control={form.control}

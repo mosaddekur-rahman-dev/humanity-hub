@@ -33,7 +33,7 @@ export function Navbar() {
         </div>
 
         <Link
-          href="/"
+          href="/events"
           className={cn(
             buttonVariants(),
             "hidden rounded-sm bg-[#12495c] px-10 font-semibold text-white hover:bg-[#1b708d] md:inline-flex",

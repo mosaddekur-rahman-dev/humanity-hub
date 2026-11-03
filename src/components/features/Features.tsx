@@ -33,8 +33,8 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="relative overflow-hidden bg-[#F0FDF4] py-16 sm:py-20 lg:py-25">
-      <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-green-200/30 blur-3xl" />
+    <section className="relative overflow-hidden bg-[#F0FDF4] py-16 sm:py-20 lg:py-10">
+      <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-green-200/30 blur-3xl " />
       <div className="pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-emerald-200/30 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -53,7 +53,7 @@ export default function Features() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 pb-20">
           {features.map((feature) => {
             const Icon = feature.icon;
 
@@ -77,6 +77,7 @@ export default function Features() {
           })}
         </div>
       </div>
+      <hr />
     </section>
   );
 }

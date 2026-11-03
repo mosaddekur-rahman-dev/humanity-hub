@@ -3,7 +3,7 @@ import { Send } from "lucide-react";
 
 export function Newsletter() {
   return (
-    <section className="px-4 py-10 ">
+    <section className="px-4 py-10 pb-20 bg-[#F0FDF4]">
       <div className="mx-auto max-w-4xl rounded-3xl border bg-linear-to-br from-white via-white to-green-100/70 px-6 py-12 text-center shadow-sm sm:px-12 sm:py-16 border-[#102C35]">
         <p className="text-xs font-bold uppercase tracking-widest text-[#065e7c]">
           Stay Connected

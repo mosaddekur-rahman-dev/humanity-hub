@@ -22,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const EVENT_TYPES = [
   "Food Drive",
@@ -96,8 +98,30 @@ export default function CreateEventForm() {
     },
   });
 
+  const router = useRouter();
+
   async function onSubmit(values: EventFormValues) {
-    console.log(values);
+    try {
+      const res = await fetch("http://localhost:8000/add-event", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Request failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+      console.log(data);
+      toast.success("Event Added Successfully");
+      form.reset();
+      router.push("/events");
+    } catch (error) {
+      console.error("Failed to create event:", error);
+    }
   }
 
   return (

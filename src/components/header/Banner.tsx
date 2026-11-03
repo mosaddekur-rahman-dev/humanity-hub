@@ -31,7 +31,7 @@ export function Banner() {
               <ArrowRight size={18} />
             </Link>
             <Link
-              href="/events/create"
+              href="/add-event"
               className="inline-flex items-center gap-2 rounded-xl border border-[#12495c] bg-white px-6 py-3.5 font-semibold text-[#102C35] transition hover:bg-green-50">
               <HandHeart size={19} />
               Create an Event
