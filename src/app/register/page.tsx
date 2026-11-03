@@ -10,7 +10,6 @@ import {
   Check,
   Eye,
   EyeOff,
-  Heart,
   Image as ImageIcon,
   Lock,
   Mail,
@@ -27,6 +26,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z
@@ -72,10 +73,30 @@ export default function RegisterForm() {
     { label: "Minimum 6 characters length", met: password.length >= 6 },
   ];
 
-  function onSubmit(values: RegisterFormValues) {
-    // TODO: replace with actual registration API call
-    console.log(values);
-  }
+  const handleSubmit = async (e: React.SubmitEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const user = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      photoUrl: string;
+      password: string;
+    };
+
+    const { data, error } = await authClient.signUp.email({
+      ...user,
+    });
+
+    if (data) {
+      redirect("/events");
+      console.log(data);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="mx-auto w-full max-w-md rounded-3xl border bg-white p-6 shadow-sm sm:p-8 my-5">
@@ -99,7 +120,7 @@ export default function RegisterForm() {
         </p>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-5">
+      <form onSubmit={handleSubmit} className="mt-6 space-y-5">
         <Controller
           name="name"
           control={form.control}
