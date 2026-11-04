@@ -186,6 +186,7 @@ export default function RegisterForm() {
                   placeholder="https://images.unsplash.com/..."
                   aria-invalid={fieldState.invalid}
                   className={inputClass}
+                  required
                 />
               </div>
               <FieldDescription>

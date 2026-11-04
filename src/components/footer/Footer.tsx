@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -7,7 +8,12 @@ export function Footer() {
         <div className="grid gap-10 grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 lg:gap-80 sm:gap-50">
           <div>
             <Link href="/" className="mb-5 inline-flex items-center gap-2">
-              <div className="rounded-xl bg-[#1b708d] p-2.5"></div>
+              <Image
+                src="/images/humanityhublogo.jpg"
+                alt="humanity hub logo"
+                width={25}
+                height={30}
+              />
               <span className="text-2xl font-extrabold tracking-tight">
                 Humanity Hub
               </span>

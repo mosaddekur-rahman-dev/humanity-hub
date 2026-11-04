@@ -16,6 +16,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -39,9 +41,28 @@ export default function LoginForm() {
     defaultValues: { email: "", password: "" },
   });
 
-  async function onSubmit(values: LoginFormValues) {
-    console.log(values);
-  }
+  const handleSubmit = async (e: React.SubmitEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const user = Object.fromEntries(formData.entries()) as {
+      email: string;
+      password: string;
+    };
+
+    const { data, error } = await authClient.signIn.email({
+      ...user,
+    });
+
+    if (data) {
+      redirect("/events");
+      console.log(data);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="mx-auto w-full max-w-md rounded-3xl border bg-white p-6 shadow-sm sm:p-8 my-5">
@@ -61,7 +82,7 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8">
+      <form onSubmit={handleSubmit} className="mt-8">
         <FieldGroup>
           <Controller
             name="email"

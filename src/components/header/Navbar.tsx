@@ -1,12 +1,32 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { Moon } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { RiAddCircleLine } from "react-icons/ri";
+import { IoSettingsOutline } from "react-icons/io5";
+import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
+
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MenuDropdown } from "./MenuDropdown";
+import { authClient } from "@/lib/auth-client";
 
 export function Navbar() {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user);
+
+  const handleSignout = () => {
+    authClient.signOut();
+  };
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-white/10 bg-linear-to-r from-[#003d52] to-[#102C35]/90 py-2 backdrop-blur-lg">
       <header className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 text-white">
@@ -49,14 +69,78 @@ export function Navbar() {
             className="rounded-full bg-[#154150] text-white hover:bg-[#1b708d]">
             <Moon className="size-5" />
           </Button>
-          <Link
-            href="/login"
-            className={cn(
-              buttonVariants(),
-              "rounded-sm bg-[#12495c] px-4 font-semibold text-white hover:bg-[#1b708d]",
-            )}>
-            Login
-          </Link>
+
+          {user ? (
+            <>
+              <HoverCard>
+                <HoverCardTrigger>
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      referrerPolicy="no-refferer"
+                      src={
+                        user?.photoUrl
+                          ? user.imageUrl
+                          : `https://github.com/shadcn.png`
+                      }
+                    />
+                    <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  <div>
+                    <h2 className="text-xl">{user?.name}</h2>
+                    <p>{user?.email}</p>
+                  </div>
+                  <hr />
+                  <div className="mt-4 flex flex-col gap-3 mb-4">
+                    <Link
+                      href={"/add-event"}
+                      className="flex gap-2 items-center text-[#003d52]">
+                      {" "}
+                      <RiAddCircleLine />
+                      Create Event
+                    </Link>
+                    <Link
+                      className="flex gap-2 items-center text-[#003d52]"
+                      href={"/events/manage"}>
+                      <IoSettingsOutline />
+                      Manage Event
+                    </Link>
+                    <Link
+                      className="flex gap-2 items-center text-[#003d52]"
+                      href={"/events/joined"}>
+                      <IoCheckmarkDoneCircleOutline />
+                      Joined Event
+                    </Link>
+                  </div>
+                  <hr />
+                  <Link href={"/"}>
+                    <button className="flex gap-2 items-center pt-2 text-red-700 cursor-pointer">
+                      <MdLogout /> Logout
+                    </button>
+                  </Link>
+                </HoverCardContent>
+              </HoverCard>
+
+              <button
+                onClick={handleSignout}
+                className={cn(
+                  buttonVariants(),
+                  "rounded-sm bg-[#12495c] px-4 font-semibold text-white hover:bg-[#1b708d]",
+                )}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className={cn(
+                buttonVariants(),
+                "rounded-sm bg-[#12495c] px-4 font-semibold text-white hover:bg-[#1b708d]",
+              )}>
+              Login
+            </Link>
+          )}
         </div>
       </header>
     </nav>
