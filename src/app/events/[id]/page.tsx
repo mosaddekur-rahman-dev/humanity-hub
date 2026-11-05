@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   BedDouble,
   CalendarDays,
@@ -14,8 +15,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { JoinEventBar } from "./JoinEventBar";
+import { JoinEventBar } from "../joined/JoinEventBar";
 
 type EventDoc = {
   _id: string;

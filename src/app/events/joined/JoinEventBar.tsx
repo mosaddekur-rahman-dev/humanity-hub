@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Heart, Share2, Users } from "lucide-react";
+import { Heart, Link, Share2, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
@@ -59,16 +59,24 @@ export function JoinEventBar({ event }: { event: EventDoc }) {
           aria-label="Share this event">
           <Share2 />
         </Button>
-        <Button
-          onClick={handleJoinedEvent}
-          className={
-            isJoined
-              ? "h-10 rounded-xl bg-[#12495c] px-5 font-semibold text-white ring-1 ring-teal-200 hover:bg-[#1b708d]"
-              : "h-10 rounded-xl bg-[#12495c] px-5 font-semibold text-white hover:bg-[#1b708d]"
-          }>
-          <Heart className={isJoined ? "fill-current" : undefined} />
-          {isJoined ? "Joined" : "Join Event"}
-        </Button>
+        {user ? (
+          <Button
+            onClick={handleJoinedEvent}
+            className={
+              isJoined
+                ? "h-10 rounded-xl bg-[#12495c] px-5 font-semibold text-white ring-1 ring-teal-200 hover:bg-[#1b708d]"
+                : "h-10 rounded-xl bg-[#12495c] px-5 font-semibold text-white hover:bg-[#1b708d]"
+            }>
+            <Heart className={isJoined ? "fill-current" : undefined} />
+            {isJoined ? "Joined" : "Join Event"}
+          </Button>
+        ) : (
+          <a href="/login">
+            <button className="h-10 rounded-xl bg-[#12495c] px-5 font-semibold text-white ring-1 ring-teal-200 hover:bg-[#1b708d]">
+              Login to join
+            </button>
+          </a>
+        )}
       </div>
     </div>
   );

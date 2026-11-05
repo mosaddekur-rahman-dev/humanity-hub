@@ -14,23 +14,31 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { redirect } from "next/navigation";
 import { DeleteEventButton } from "./DeleteEventButton";
-import { EventData } from "node:test";
+
+type EventData = {
+  _id: string;
+  title: string;
+  type: string;
+  date: string;
+  location: string;
+  thumbnail: string;
+  description: string;
+};
 
 export default async function ManageEventPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  const user = session?.user;
-  const email = user?.email;
-
+  const email = session?.user?.email;
   if (!email) redirect("/login");
 
-  const res = await fetch(`http://localhost:8000/manage/${email}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `http://localhost:8000/manage/${encodeURIComponent(email)}`,
+    { cache: "no-store" },
+  );
 
-  const manage = res.ok ? await res.json() : [];
+  const manage: EventData[] = res.ok ? await res.json() : [];
 
   return (
     <div className="container mx-auto my-10 px-10">
@@ -56,8 +64,9 @@ export default async function ManageEventPage() {
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 lg:grid-cols-3">
-          {manage.map((dat: EventData) => (
+          {manage.map((dat) => (
             <Card key={dat._id} className="w-full pt-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={dat.thumbnail}
                 alt={dat.title}

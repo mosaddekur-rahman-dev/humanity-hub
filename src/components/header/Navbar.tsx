@@ -1,11 +1,14 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Moon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RiAddCircleLine } from "react-icons/ri";
-import { IoSettingsOutline } from "react-icons/io5";
-import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
+import {
+  IoSettingsOutline,
+  IoCheckmarkDoneCircleOutline,
+} from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 
 import {
@@ -20,12 +23,23 @@ import { MenuDropdown } from "./MenuDropdown";
 import { authClient } from "@/lib/auth-client";
 
 export function Navbar() {
+  const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
-  const handleSignout = () => {
-    authClient.signOut();
+  const handleSignout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/");
+          router.refresh();
+        },
+      },
+    });
   };
+
+  const handleToggleTheme = () => {};
+
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-white/10 bg-linear-to-r from-[#003d52] to-[#102C35]/90 py-2 backdrop-blur-lg">
       <header className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 text-white">
@@ -61,6 +75,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-5">
           <Button
+            onClick={handleToggleTheme}
             size="icon"
             aria-label="Toggle theme"
             className="rounded-full bg-[#154150] text-white hover:bg-[#1b708d]">
@@ -73,49 +88,47 @@ export function Navbar() {
                 <HoverCardTrigger>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      referrerPolicy="no-refferer"
-                      src={
-                        user?.photoUrl
-                          ? user.imageUrl
-                          : `https://github.com/shadcn.png`
-                      }
+                      referrerPolicy="no-referrer"
+                      src={user.image ?? undefined}
+                      alt={user.name}
                     />
-                    <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>
+                      {user.name?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </HoverCardTrigger>
                 <HoverCardContent>
                   <div>
-                    <h2 className="text-xl">{user?.name}</h2>
-                    <p>{user?.email}</p>
+                    <h2 className="text-xl">{user.name}</h2>
+                    <p>{user.email}</p>
                   </div>
                   <hr />
-                  <div className="mt-4 flex flex-col gap-3 mb-4">
+                  <div className="mb-4 mt-4 flex flex-col gap-3">
                     <Link
-                      href={"/add-event"}
-                      className="flex gap-2 items-center text-[#003d52]">
-                      {" "}
+                      href="/add-event"
+                      className="flex items-center gap-2 text-[#003d52]">
                       <RiAddCircleLine />
                       Create Event
                     </Link>
                     <Link
-                      className="flex gap-2 items-center text-[#003d52]"
-                      href={"/events/manage"}>
+                      href="/events/manage"
+                      className="flex items-center gap-2 text-[#003d52]">
                       <IoSettingsOutline />
                       Manage Event
                     </Link>
                     <Link
-                      className="flex gap-2 items-center text-[#003d52]"
-                      href={"/events/joined"}>
+                      href="/events/joined"
+                      className="flex items-center gap-2 text-[#003d52]">
                       <IoCheckmarkDoneCircleOutline />
                       Joined Event
                     </Link>
                   </div>
                   <hr />
-                  <Link href={"/"}>
-                    <button className="flex gap-2 items-center pt-2 text-red-700 cursor-pointer">
-                      <MdLogout /> Logout
-                    </button>
-                  </Link>
+                  <button
+                    onClick={handleSignout}
+                    className="flex cursor-pointer items-center gap-2 pt-2 text-red-700">
+                    <MdLogout /> Logout
+                  </button>
                 </HoverCardContent>
               </HoverCard>
 

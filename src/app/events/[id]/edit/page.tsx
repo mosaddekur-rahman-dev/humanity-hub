@@ -3,7 +3,9 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import EditEventForm from "./EditEventForm";
 
-export default async function EditEventPage({
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
+export default async function EditPage({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -14,12 +16,13 @@ export default async function EditEventPage({
   const email = session?.user?.email;
   if (!email) redirect("/login");
 
-  const res = await fetch(`http://localhost:8000/events/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(`${API_URL}/events/${id}`, { cache: "no-store" });
   if (!res.ok) notFound();
-  const event = await res.json();
 
+  const event = await res.json();
+  if (!event) notFound();
+
+  // only the creator can edit
   if (event.email !== email) redirect("/events");
 
   return <EditEventForm event={event} />;

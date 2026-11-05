@@ -24,6 +24,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const API_URL = "http://localhost:8000";
+const MANAGE_PATH = "/events/manage";
+
 const EVENT_TYPES = [
   "Food Drive",
   "Winter Clothes",
@@ -73,7 +76,7 @@ export default function EditEventForm({ event }: { event: EventDoc }) {
 
   async function onSubmit(values: EventFormValues) {
     try {
-      const res = await fetch(`http://localhost:8000/events/${id}`, {
+      const res = await fetch(`${API_URL}/events/${event._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -9,17 +9,16 @@ export function DeleteEventButton({ id }: { id: string }) {
 
   async function handleDelete() {
     try {
-      const res = await fetch(`http://localhost:8000/manage/${id}`, {
+      const res = await fetch(`http://localhost:8000/events/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error(`Failed with status ${res.status}`);
 
       toast.success("Event deleted");
+      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("Could not delete the event");
-    } finally {
-      router.refresh();
     }
   }
 
