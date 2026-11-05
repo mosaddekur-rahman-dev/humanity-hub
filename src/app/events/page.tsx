@@ -3,26 +3,37 @@ import Link from "next/link";
 
 export default async function AllEventsPage() {
   const res = await fetch("http://localhost:8000/events");
+
   const data: EventDoc[] = await res.json();
 
-  console.log(data);
+  const today = new Date().toISOString().slice(0, 10);
+
+  const upcoming = data
+    .filter((e) => e.date >= today)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
   return (
     <>
-      <div className="max-w-7xl">
-        <div className="max-w-6xl mx-auto items-center flex justify-between mr-10">
-          <h2 className="text-3xl font-semibold mt-10">All Events</h2>
-          <Link href="/add-event">
-            <button className="bg-[#12495c] text-white py-1 px-2 rounded-sm mt-10 cursor-pointer">
-              Create Event
-            </button>
-          </Link>
+      <div className="container mx-auto items-center flex justify-between px-15">
+        <h2 className="text-3xl font-semibold mt-10">All Upcoming Events</h2>
+        <Link href="/add-event">
+          <button className="bg-[#12495c] text-white py-1 px-2 rounded-sm mt-10 cursor-pointer">
+            Create Event
+          </button>
+        </Link>
+      </div>
+
+      {upcoming.length === 0 ? (
+        <p className="py-20 text-center text-muted-foreground">
+          No upcoming events yet. Be the first to create one!
+        </p>
+      ) : (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 py-10 gap-5">
+          {upcoming.map((dat) => (
+            <EventCard key={dat._id} dat={dat} />
+          ))}
         </div>
-      </div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 py-10 gap-5">
-        {data.map((dat: EventDoc) => (
-          <EventCard key={dat._id} dat={dat} />
-        ))}
-      </div>
+      )}
     </>
   );
 }

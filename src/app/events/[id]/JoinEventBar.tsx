@@ -1,13 +1,34 @@
 "use client";
-
 import { useState } from "react";
-
 import { Heart, Share2, Users } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
 
-export function JoinEventBar() {
+export function JoinEventBar({ event }: { event: EventDoc }) {
   const [isJoined, setIsJoined] = useState(false);
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
+  const handleJoinedEvent = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+    toggleJoined();
+
+    const data = {
+      username: user?.name,
+      email: user?.email,
+      ...event,
+      joiningDate: new Date(),
+    };
+    const res = await fetch("http://localhost:8000/joined", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const joinedResponse = await res.json();
+    console.log(joinedResponse);
+  };
 
   const toggleJoined = () => {
     setIsJoined(!isJoined);
@@ -39,7 +60,7 @@ export function JoinEventBar() {
           <Share2 />
         </Button>
         <Button
-          onClick={toggleJoined}
+          onClick={handleJoinedEvent}
           className={
             isJoined
               ? "h-10 rounded-xl bg-[#12495c] px-5 font-semibold text-white ring-1 ring-teal-200 hover:bg-[#1b708d]"

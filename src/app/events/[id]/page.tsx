@@ -1,11 +1,9 @@
-import Image from "next/image";
-import { notFound } from "next/navigation";
 import {
   BedDouble,
   CalendarDays,
   Droplets,
-  MapPin,
   Mail,
+  MapPin,
   ShieldCheck,
   Shirt,
   Sparkles,
@@ -14,7 +12,8 @@ import {
   TreePine,
   Utensils,
 } from "lucide-react";
-
+import Image from "next/image";
+import { notFound } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { JoinEventBar } from "./JoinEventBar";
 
@@ -111,7 +110,7 @@ export default async function EventDetailsPage({
 
           <section>
             <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-              <JoinEventBar eventId={event._id} eventTitle={event.title} />
+              <JoinEventBar event={event} />
 
               <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
                 <div>

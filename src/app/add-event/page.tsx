@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const EVENT_TYPES = [
   "Food Drive",
@@ -99,28 +100,37 @@ export default function CreateEventForm() {
   });
 
   const router = useRouter();
+  const { data: session } = authClient.useSession();
 
   async function onSubmit(values: EventFormValues) {
+    const user = session?.user;
+    if (!user?.email) {
+      toast.error("Please log in to create an event");
+      return;
+    }
+
+    const data = {
+      ...values,
+      username: user.name,
+      email: user.email,
+      createdAt: new Date().toISOString(),
+    };
+
     try {
       const res = await fetch("http://localhost:8000/add-event", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
 
-      if (!res.ok) {
-        throw new Error(`Request failed with status ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
 
-      const data = await res.json();
-      console.log(data);
       toast.success("Event Added Successfully");
       form.reset();
       router.push("/events");
     } catch (error) {
       console.error("Failed to create event:", error);
+      toast.error("Could not create the event. Please try again.");
     }
   }
 
