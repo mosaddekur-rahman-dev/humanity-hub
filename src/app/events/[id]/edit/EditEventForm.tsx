@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const API_URL = "http://localhost:8000";
 const MANAGE_PATH = "/events/manage";
@@ -74,11 +75,16 @@ export default function EditEventForm({ event }: { event: EventDoc }) {
     },
   });
 
+  const token = await getTokenFromClient();
+
   async function onSubmit(values: EventFormValues) {
     try {
       const res = await fetch(`${API_URL}/events/${event._id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           ...values,
           updatedAt: new Date().toISOString(),

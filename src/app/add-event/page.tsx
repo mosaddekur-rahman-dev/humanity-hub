@@ -25,6 +25,7 @@ import {
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const EVENT_TYPES = [
   "Food Drive",
@@ -37,7 +38,6 @@ const EVENT_TYPES = [
   "Other",
 ] as const;
 
-// Replace with your own hosted images
 const PHOTO_PRESETS = [
   {
     label: "Winter Clothes",
@@ -109,7 +109,11 @@ export default function CreateEventForm() {
       return;
     }
 
-    const data = {
+    const token = await getTokenFromClient();
+
+    console.log(data);
+
+    const result = {
       ...values,
       username: user.name,
       email: user.email,
@@ -119,8 +123,11 @@ export default function CreateEventForm() {
     try {
       const res = await fetch("http://localhost:8000/add-event", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(result),
       });
 
       if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
