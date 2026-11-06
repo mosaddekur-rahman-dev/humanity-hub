@@ -1,6 +1,9 @@
 import { EventCard, type EventDoc } from "@/app/events/EventCard";
+import { buttonVariants } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
+import { cn } from "cn";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -24,9 +27,21 @@ export default async function JoinedEventsPage() {
       <hr />
 
       {sorted.length === 0 ? (
-        <p className="py-20 text-center text-muted-foreground">
-          You haven&apos;t joined any events yet.
-        </p>
+        <div className="flex flex-col justify-center items-center gap-5 py-20 ">
+          <p className="text-center text-muted-foreground">
+            You haven&apos;t joined any events yet.
+          </p>
+          <Link href={"/events"}>
+            {" "}
+            <button
+              className={cn(
+                buttonVariants(),
+                "rounded-sm bg-[#12495c] px-4 font-semibold text-white hover:bg-[#1b708d] cursor-pointer",
+              )}>
+              See Upcoming Events
+            </button>
+          </Link>
+        </div>
       ) : (
         <div className="grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 lg:grid-cols-3">
           {sorted.map((dat) => (
