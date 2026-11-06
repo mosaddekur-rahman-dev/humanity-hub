@@ -16,9 +16,6 @@ import {
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { JoinEventBar } from "../joined/JoinEventBar";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 type EventDoc = {
   _id: string;
@@ -62,15 +59,7 @@ export default async function EventDetailsPage({
 }: PageProps<"/events/[id]">) {
   const { id } = await params;
 
-  const token = await getTokenFromServer();
-
-  console.log(token);
-
-  const res = await fetch(`http://localhost:8000/events/${id}`, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/${id}`);
 
   if (!res.ok) {
     notFound();

@@ -32,7 +32,6 @@ export function Footer() {
               {[
                 { name: "Home", href: "/" },
                 { name: "Explore Events", href: "/events" },
-                { name: "Create Event", href: "/events/create" },
               ].map((link) => (
                 <li key={link.name}>
                   <Link

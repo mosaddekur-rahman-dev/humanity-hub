@@ -2,7 +2,7 @@ import { EventCard, type EventDoc } from "@/app/events/EventCard";
 import Link from "next/link";
 
 export default async function AllEventsPage() {
-  const res = await fetch("http://localhost:8000/events");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events`);
 
   const data: EventDoc[] = await res.json();
 

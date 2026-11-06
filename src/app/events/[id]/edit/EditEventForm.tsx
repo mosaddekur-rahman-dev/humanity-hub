@@ -75,9 +75,8 @@ export default function EditEventForm({ event }: { event: EventDoc }) {
     },
   });
 
-  const token = await getTokenFromClient();
-
   async function onSubmit(values: EventFormValues) {
+    const token = await getTokenFromClient();
     try {
       const res = await fetch(`${API_URL}/events/${event._id}`, {
         method: "PUT",

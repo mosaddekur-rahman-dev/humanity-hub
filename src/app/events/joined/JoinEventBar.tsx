@@ -1,15 +1,16 @@
 "use client";
-import { useState } from "react";
-import { Heart, Link, Share2, Users } from "lucide-react";
+import type { EventDoc } from "@/app/events/EventCard";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
+import { Heart, Share2, Users } from "lucide-react";
+import { useState } from "react";
 
 export function JoinEventBar({ event }: { event: EventDoc }) {
   const [isJoined, setIsJoined] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
-  const handleJoinedEvent = async (e: React.SubmitEvent) => {
+  const handleJoinedEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     toggleJoined();
 

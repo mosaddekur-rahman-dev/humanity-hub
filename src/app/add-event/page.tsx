@@ -1,9 +1,9 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Calendar, ImageIcon, MapPin, Sparkles, Tag, Type } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +14,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -22,10 +21,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 import { authClient } from "@/lib/auth-client";
 import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const EVENT_TYPES = [
   "Food Drive",
@@ -111,7 +111,7 @@ export default function CreateEventForm() {
 
     const token = await getTokenFromClient();
 
-    console.log(data);
+    console.log(values);
 
     const result = {
       ...values,
@@ -121,7 +121,7 @@ export default function CreateEventForm() {
     };
 
     try {
-      const res = await fetch("http://localhost:8000/add-event", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-event`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
