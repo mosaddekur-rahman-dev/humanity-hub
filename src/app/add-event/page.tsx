@@ -111,8 +111,6 @@ export default function CreateEventForm() {
 
     const token = await getTokenFromClient();
 
-    console.log(values);
-
     const result = {
       ...values,
       username: user.name,

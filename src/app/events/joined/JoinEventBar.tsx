@@ -13,7 +13,6 @@ export function JoinEventBar({ event }: { event: EventDoc }) {
   const handleJoinedEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     toggleJoined();
-
     const data = {
       username: user?.name,
       email: user?.email,

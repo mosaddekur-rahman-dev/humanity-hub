@@ -13,9 +13,7 @@ export default async function JoinedEventsPage() {
   const email = session?.user?.email;
   if (!email) redirect("/login");
 
-  const res = await fetch(`${API_URL}/my-joined/${encodeURIComponent(email)}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(`${API_URL}/my-joined/${email}`);
   const joined: EventDoc[] = res.ok ? await res.json() : [];
 
   const sorted = [...joined].sort((a, b) => a.date.localeCompare(b.date));
