@@ -103,39 +103,51 @@ export default function CreateEventForm() {
   const { data: session } = authClient.useSession();
 
   async function onSubmit(values: EventFormValues) {
-    const user = session?.user;
-    if (!user?.email) {
-      toast.error("Please log in to create an event");
-      return;
-    }
-
-    const token = await getTokenFromClient();
-
-    const result = {
-      ...values,
-      username: user.name,
-      email: user.email,
-      createdAt: new Date().toISOString(),
-    };
-
     try {
+      const user = session?.user;
+
+      if (!user?.email) {
+        toast.error("Please log in first.");
+        return;
+      }
+
+      const token = await getTokenFromClient();
+
+      const result = {
+        ...values,
+        username: user.name,
+        email: user.email,
+        createdAt: new Date().toISOString(),
+      };
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-event`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(result),
       });
 
-      if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+      const responseData = await res.json().catch(() => null);
 
-      toast.success("Event Added Successfully");
+      if (!res.ok) {
+        console.error("Backend error:", responseData);
+        throw new Error(
+          responseData?.msg ||
+            responseData?.message ||
+            `Request failed with status ${res.status}`,
+        );
+      }
+
+      toast.success("Event created successfully!");
       form.reset();
       router.push("/events");
     } catch (error) {
       console.error("Failed to create event:", error);
-      toast.error("Could not create the event. Please try again.");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong.",
+      );
     }
   }
 
