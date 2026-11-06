@@ -34,7 +34,7 @@ export default async function ManageEventPage() {
   if (!email) redirect("/login");
 
   const res = await fetch(
-    `http://localhost:8000/manage/${encodeURIComponent(email)}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/manage/${encodeURIComponent(email)}`,
     { cache: "no-store" },
   );
 

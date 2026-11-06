@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
-const API_URL = "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const MANAGE_PATH = "/events/manage";
 
 const EVENT_TYPES = [

@@ -20,7 +20,7 @@ export function JoinEventBar({ event }: { event: EventDoc }) {
       ...event,
       joiningDate: new Date(),
     };
-    const res = await fetch("http://localhost:8000/joined", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

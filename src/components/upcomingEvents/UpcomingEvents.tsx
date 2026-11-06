@@ -1,11 +1,28 @@
-import Link from "next/link";
 import { EventCard, type EventDoc } from "@/app/events/EventCard";
+import Link from "next/link";
 
 export async function UpcomingEvents() {
-  const res = await fetch("http://localhost:8000/events");
-  const data: EventDoc[] = await res.json();
+  let data: EventDoc[] = [];
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  console.log(data);
+    if (!API_URL) {
+      throw new Error("NEXT_PUBLIC_API_URL is missing");
+    }
+
+    const res = await fetch(`${API_URL}/events`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch events: ${res.status}`);
+    }
+
+    data = await res.json();
+  } catch (error) {
+    console.error("Upcoming events API error:", error);
+  }
+
   return (
     <div className="bg-[#F0FDF4] py-10">
       <div className="flex justify-between items-center max-w-6xl mx-auto">

@@ -9,9 +9,12 @@ export function DeleteEventButton({ id }: { id: string }) {
 
   async function handleDelete() {
     try {
-      const res = await fetch(`http://localhost:8000/events/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/events/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
       if (!res.ok) throw new Error(`Failed with status ${res.status}`);
 
       toast.success("Event deleted");

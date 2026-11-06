@@ -2,15 +2,30 @@ import { EventCard, type EventDoc } from "@/app/events/EventCard";
 import Link from "next/link";
 
 export default async function AllEventsPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events`);
+  let upcoming: EventDoc[] = [];
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const data: EventDoc[] = await res.json();
+    if (!API_URL) {
+      throw new Error("NEXT_PUBLIC_API_URL is not configured");
+    }
 
-  const today = new Date().toISOString().slice(0, 10);
+    const res = await fetch(`${API_URL}/events`, {
+      cache: "no-store",
+    });
 
-  const upcoming = data
-    .filter((e) => e.date >= today)
-    .sort((a, b) => a.date.localeCompare(b.date));
+    if (!res.ok) {
+      throw new Error(`Events API failed: ${res.status}`);
+    }
+    const data: EventDoc[] = await res.json();
+    const today = new Date().toISOString().slice(0, 10);
+
+    upcoming = data
+      .filter((e) => e.date >= today)
+      .sort((a, b) => a.date.localeCompare(b.date));
+  } catch (error) {
+    console.error("Failed to fetch events:", error);
+  }
 
   return (
     <>

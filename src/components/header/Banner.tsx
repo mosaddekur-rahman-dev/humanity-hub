@@ -1,6 +1,7 @@
 import { ArrowRight, HandHeart, Heart, Users } from "lucide-react";
 import Link from "next/link";
 import { Stats } from "./Stats";
+import Image from "next/image";
 
 export function Banner() {
   return (
@@ -59,10 +60,12 @@ export function Banner() {
         </div>
         <div className="relative">
           <div className="absolute -inset-4 rounded-[2rem] bg-green-200/50 rotate-3" />
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1000&q=85"
             alt="Volunteers working together for their community"
-            className="relative h-[380px] w-full rounded-[2rem] object-cover shadow-xl sm:h-[480px]"
+            width={400}
+            height={400}
+            className="relative h-95 w-full rounded-[2rem] object-cover shadow-xl sm:h-120"
           />
           <div className="absolute -bottom-6 -left-4 rounded-2xl bg-white p-5 shadow-xl sm:-left-8">
             <div className="flex items-center gap-3">
