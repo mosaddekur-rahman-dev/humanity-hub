@@ -136,7 +136,7 @@ export function Navbar() {
                 onClick={handleSignout}
                 className={cn(
                   buttonVariants(),
-                  "rounded-sm bg-[#12495c] px-4 font-semibold text-white hover:bg-[#1b708d]",
+                  "rounded-sm bg-[#12495c] px-4 font-semibold text-white hover:bg-[#1b708d] cursor-pointer",
                 )}>
                 Logout
               </button>

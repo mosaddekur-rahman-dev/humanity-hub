@@ -98,6 +98,13 @@ export default function RegisterForm() {
     }
   };
 
+  const hangelGoogleSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+    console.log(data);
+  };
+
   return (
     <div className="mx-auto w-full max-w-md rounded-3xl border bg-white p-6 shadow-sm sm:p-8 my-5">
       <div className="flex flex-col items-center text-center">
@@ -255,6 +262,25 @@ export default function RegisterForm() {
           <ArrowRight className="size-4" />
         </Button>
       </form>
+
+      <div className="flex justify-between items-center gap-3 mt-8">
+        <div className="h-0.5 w-50 bg-gray-300 "></div>
+        <p className="text-center">OR</p>
+        <div className="h-0.5 w-50 bg-gray-300 "></div>
+      </div>
+
+      <button
+        className="btn flex gap-2 justify-center items-center cursor-pointer w-full  mt-8 bg-[#F0FDF4] py-2 rounded-sm border border-gray-400"
+        onClick={hangelGoogleSignIn}>
+        <Image
+          src="/images/google logo.webp"
+          alt="google logo"
+          width={10}
+          height={10}
+          className="w-5 h-5"
+        />
+        <p>CONTINUE WITH GOOGLE</p>
+      </button>
 
       <p className="mt-5 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
