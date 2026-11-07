@@ -1,11 +1,11 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Calendar, ImageIcon, MapPin, Tag, Type } from "lucide-react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -23,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { Textarea } from "@/components/ui/textarea";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const MANAGE_PATH = "/events/manage";
@@ -76,13 +75,11 @@ export default function EditEventForm({ event }: { event: EventDoc }) {
   });
 
   async function onSubmit(values: EventFormValues) {
-    const token = await getTokenFromClient();
     try {
       const res = await fetch(`${API_URL}/events/${event._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           ...values,
