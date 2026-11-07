@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { authClient } from "@/lib/auth-client";
-import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -111,8 +110,6 @@ export default function CreateEventForm() {
         return;
       }
 
-      const token = await getTokenFromClient();
-
       const result = {
         ...values,
         username: user.name,
@@ -124,7 +121,6 @@ export default function CreateEventForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(result),
       });
