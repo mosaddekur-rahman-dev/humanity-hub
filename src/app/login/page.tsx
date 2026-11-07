@@ -76,8 +76,8 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-3xl border bg-white p-6 shadow-sm sm:p-8 my-5">
-      <div className="flex flex-col items-center text-center">
+    <div className="mx-auto w-full max-w-md rounded-3xl border bg-white text-black p-6 shadow-sm sm:p-8 my-5">
+      <div className="flex flex-col items-center text-center dark:bg-[#102C35] dark:text-black">
         <Image
           src="/images/humanityhublogo.jpg"
           alt="Humanity Hub logo"

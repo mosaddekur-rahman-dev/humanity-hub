@@ -1,10 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   ArrowRight,
   Check,
@@ -16,6 +12,10 @@ import {
   User,
   X,
 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,8 +25,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -58,7 +58,7 @@ export default function RegisterForm() {
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", email: "", photoUrl: "", password: "" },
+    defaultValues: { name: "", email: "", image: "", password: "" },
   });
 
   const password = useWatch({ control: form.control, name: "password" });
@@ -81,7 +81,7 @@ export default function RegisterForm() {
     const user = Object.fromEntries(formData.entries()) as {
       name: string;
       email: string;
-      photoUrl: string;
+      image: string;
       password: string;
     };
 
@@ -180,16 +180,18 @@ export default function RegisterForm() {
         />
 
         <Controller
-          name="photoUrl"
+          name="image"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="photoUrl">Profile Photo URL</FieldLabel>
+              <FieldLabel htmlFor="image">
+                Profile Photo URL<span className="text-red-500">*</span>
+              </FieldLabel>
               <div className="relative">
                 <ImageIcon className={iconClass} />
                 <Input
                   {...field}
-                  id="photoUrl"
+                  id="image"
                   type="url"
                   placeholder="https://images.unsplash.com/..."
                   aria-invalid={fieldState.invalid}
@@ -197,9 +199,6 @@ export default function RegisterForm() {
                   required
                 />
               </div>
-              <FieldDescription>
-                Optional: Leave empty for default avatar
-              </FieldDescription>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

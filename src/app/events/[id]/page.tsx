@@ -70,7 +70,7 @@ export default async function EventDetailsPage({
 
   return (
     <>
-      <div className="bg-[#F0FDF4]">
+      <div>
         <div className="bg-white max-w-6xl mx-auto rounded-2xl mb-10">
           <section className="relative isolate h-104 w-full overflow-hidden sm:h-112 my-10 rounded-t-2xl">
             <Image

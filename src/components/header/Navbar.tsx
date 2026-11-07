@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,6 +16,13 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
@@ -83,32 +90,49 @@ export function Navbar() {
             aria-label="Toggle theme"
             className="rounded-full bg-[#154150] text-white hover:bg-[#1b708d]">
             <Moon className="size-5" />
+            <Sun className="size-5" />
           </Button>
 
           {user ? (
             <>
               <Suspense fallback="Loading...">
-                <button>
-                  <HoverCard>
-                    <HoverCardTrigger>
-                      <Avatar className="cursor-pointer">
-                        <AvatarImage
-                          referrerPolicy="no-referrer"
-                          src={user?.image ?? undefined}
-                          alt={user?.name}
-                        />
-                        <AvatarFallback>
-                          {user.name?.charAt(0).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    </HoverCardTrigger>
-                    <HoverCardContent>
-                      <div>
-                        <h2 className="text-xl">{user.name}</h2>
-                        <p>{user.email}</p>
+                <Popover>
+                  <PopoverTrigger>
+                    <HoverCard>
+                      <HoverCardTrigger
+                        delay={10}
+                        closeDelay={100}
+                        render={
+                          <Button variant={null}>
+                            <Avatar className="cursor-pointer">
+                              <AvatarImage
+                                referrerPolicy="no-referrer"
+                                src={
+                                  user?.photoUrl ??
+                                  "https://github.com/shadcn.png"
+                                }
+                                alt={user?.name}
+                              />
+                              <AvatarFallback>
+                                {user.name?.charAt(0).toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                          </Button>
+                        }
+                      />
+                      <HoverCardContent className="flex w-full  gap-0.5 bg-[#12495c] text-white">
+                        <div className="font-semibold">{user?.name}</div>
+                      </HoverCardContent>
+                    </HoverCard>
+                  </PopoverTrigger>
+                  <PopoverContent align="start">
+                    <PopoverDescription>
+                      <div className="mb-2">
+                        <h2 className="text-xl text-black">{user.name}</h2>
+                        <p className="text-black">{user.email}</p>
                       </div>
                       <hr />
-                      <div className="mb-4 mt-4 flex flex-col gap-3">
+                      <div className="mb-2 mt-2 flex flex-col gap-3">
                         <Link
                           href="/add-event"
                           className="flex items-center gap-2 text-[#003d52]">
@@ -134,9 +158,9 @@ export function Navbar() {
                         className="flex cursor-pointer items-center gap-2 pt-2 text-red-700">
                         <MdLogout /> Logout
                       </button>
-                    </HoverCardContent>
-                  </HoverCard>
-                </button>
+                    </PopoverDescription>
+                  </PopoverContent>
+                </Popover>
               </Suspense>
               <button
                 onClick={handleSignout}
