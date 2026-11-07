@@ -1,5 +1,6 @@
 import { EventCard, type EventDoc } from "@/app/events/EventCard";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default async function AllEventsPage() {
   let upcoming: EventDoc[] = [];
@@ -44,9 +45,11 @@ export default async function AllEventsPage() {
         </p>
       ) : (
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 py-10 gap-5">
-          {upcoming.map((dat) => (
-            <EventCard key={dat._id} dat={dat} />
-          ))}
+          <Suspense fallback="Loading...">
+            {upcoming.map((dat) => (
+              <EventCard key={dat._id} dat={dat} />
+            ))}
+          </Suspense>
         </div>
       )}
     </>

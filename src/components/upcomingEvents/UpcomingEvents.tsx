@@ -1,5 +1,6 @@
 import { EventCard, type EventDoc } from "@/app/events/EventCard";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export async function UpcomingEvents() {
   let data: EventDoc[] = [];
@@ -36,9 +37,11 @@ export async function UpcomingEvents() {
         </Link>
       </div>
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 py-10 gap-8 pb-20">
-        {data.slice(0, 6).map((dat: EventDoc) => (
-          <EventCard key={dat._id} dat={dat} />
-        ))}
+        <Suspense fallback="Loading...">
+          {data.slice(0, 6).map((dat: EventDoc) => (
+            <EventCard key={dat._id} dat={dat} />
+          ))}
+        </Suspense>
       </div>
       <hr />
     </div>

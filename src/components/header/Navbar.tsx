@@ -1,15 +1,15 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Moon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { RiAddCircleLine } from "react-icons/ri";
+import { Moon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
-  IoSettingsOutline,
   IoCheckmarkDoneCircleOutline,
+  IoSettingsOutline,
 } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
+import { RiAddCircleLine } from "react-icons/ri";
 
 import {
   HoverCard,
@@ -18,9 +18,11 @@ import {
 } from "@/components/ui/hover-card";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { MenuDropdown } from "./MenuDropdown";
 import { authClient } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+import { Suspense } from "react";
+import { toast } from "react-toastify";
+import { MenuDropdown } from "./MenuDropdown";
 
 export function Navbar() {
   const router = useRouter();
@@ -31,6 +33,7 @@ export function Navbar() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          toast.warning("user logged out");
           router.push("/");
           router.refresh();
         },
@@ -84,54 +87,57 @@ export function Navbar() {
 
           {user ? (
             <>
-              <HoverCard>
-                <HoverCardTrigger>
-                  <Avatar className="cursor-pointer">
-                    <AvatarImage
-                      referrerPolicy="no-referrer"
-                      src={user.image ?? undefined}
-                      alt={user.name}
-                    />
-                    <AvatarFallback>
-                      {user.name?.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </HoverCardTrigger>
-                <HoverCardContent>
-                  <div>
-                    <h2 className="text-xl">{user.name}</h2>
-                    <p>{user.email}</p>
-                  </div>
-                  <hr />
-                  <div className="mb-4 mt-4 flex flex-col gap-3">
-                    <Link
-                      href="/add-event"
-                      className="flex items-center gap-2 text-[#003d52]">
-                      <RiAddCircleLine />
-                      Create Event
-                    </Link>
-                    <Link
-                      href="/events/manage"
-                      className="flex items-center gap-2 text-[#003d52]">
-                      <IoSettingsOutline />
-                      Manage Event
-                    </Link>
-                    <Link
-                      href="/events/joined"
-                      className="flex items-center gap-2 text-[#003d52]">
-                      <IoCheckmarkDoneCircleOutline />
-                      Joined Event
-                    </Link>
-                  </div>
-                  <hr />
-                  <button
-                    onClick={handleSignout}
-                    className="flex cursor-pointer items-center gap-2 pt-2 text-red-700">
-                    <MdLogout /> Logout
-                  </button>
-                </HoverCardContent>
-              </HoverCard>
-
+              <Suspense fallback="Loading...">
+                <button>
+                  <HoverCard>
+                    <HoverCardTrigger>
+                      <Avatar className="cursor-pointer">
+                        <AvatarImage
+                          referrerPolicy="no-referrer"
+                          src={user?.image ?? undefined}
+                          alt={user?.name}
+                        />
+                        <AvatarFallback>
+                          {user.name?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </HoverCardTrigger>
+                    <HoverCardContent>
+                      <div>
+                        <h2 className="text-xl">{user.name}</h2>
+                        <p>{user.email}</p>
+                      </div>
+                      <hr />
+                      <div className="mb-4 mt-4 flex flex-col gap-3">
+                        <Link
+                          href="/add-event"
+                          className="flex items-center gap-2 text-[#003d52]">
+                          <RiAddCircleLine />
+                          Create Event
+                        </Link>
+                        <Link
+                          href="/events/manage"
+                          className="flex items-center gap-2 text-[#003d52]">
+                          <IoSettingsOutline />
+                          Manage Event
+                        </Link>
+                        <Link
+                          href="/events/joined"
+                          className="flex items-center gap-2 text-[#003d52]">
+                          <IoCheckmarkDoneCircleOutline />
+                          Joined Event
+                        </Link>
+                      </div>
+                      <hr />
+                      <button
+                        onClick={handleSignout}
+                        className="flex cursor-pointer items-center gap-2 pt-2 text-red-700">
+                        <MdLogout /> Logout
+                      </button>
+                    </HoverCardContent>
+                  </HoverCard>
+                </button>
+              </Suspense>
               <button
                 onClick={handleSignout}
                 className={cn(

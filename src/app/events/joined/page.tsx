@@ -5,6 +5,7 @@ import { cn } from "cn";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -42,9 +43,11 @@ export default async function JoinedEventsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 lg:grid-cols-3">
-          {sorted.map((dat) => (
-            <EventCard key={dat._id} dat={dat} />
-          ))}
+          <Suspense fallback="Loading joined events data...">
+            {sorted.map((dat) => (
+              <EventCard key={dat._id} dat={dat} />
+            ))}
+          </Suspense>
         </div>
       )}
     </div>

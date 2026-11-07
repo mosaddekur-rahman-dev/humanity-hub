@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 const formSchema = z.object({
   name: z
@@ -90,7 +91,7 @@ export default function RegisterForm() {
 
     if (data) {
       redirect("/events");
-      console.log(data);
+      toast.success("user created successfully");
     }
 
     if (error) {

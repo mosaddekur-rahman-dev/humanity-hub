@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { redirect } from "next/navigation";
 import { DeleteEventButton } from "./DeleteEventButton";
+import { Suspense } from "react";
 
 type EventData = {
   _id: string;
@@ -64,41 +65,43 @@ export default async function ManageEventPage() {
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 lg:grid-cols-3">
-          {manage.map((dat) => (
-            <Card key={dat._id} className="w-full pt-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={dat.thumbnail}
-                alt={dat.title}
-                className="aspect-video w-full rounded-t-xl object-cover"
-              />
-              <CardHeader>
-                <CardAction className="flex flex-col gap-1">
-                  <Badge variant="outline">{dat.date}</Badge>
-                  <Badge variant="default">{dat.type}</Badge>
-                </CardAction>
-                <CardTitle>{dat.title}</CardTitle>
-                <CardDescription className="line-clamp-3">
-                  {dat.description}
-                </CardDescription>
-              </CardHeader>
-              <CardFooter className="flex items-center justify-between gap-2">
-                <Link
-                  href={`/events/${dat._id}`}
-                  className={buttonVariants({ variant: "outline" })}>
-                  View
-                </Link>
-                <div className="flex gap-2">
+          <Suspense fallback="Loading created events data...">
+            {manage.map((dat) => (
+              <Card key={dat._id} className="w-full pt-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={dat.thumbnail}
+                  alt={dat.title}
+                  className="aspect-video w-full rounded-t-xl object-cover"
+                />
+                <CardHeader>
+                  <CardAction className="flex flex-col gap-1">
+                    <Badge variant="outline">{dat.date}</Badge>
+                    <Badge variant="default">{dat.type}</Badge>
+                  </CardAction>
+                  <CardTitle>{dat.title}</CardTitle>
+                  <CardDescription className="line-clamp-3">
+                    {dat.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter className="flex items-center justify-between gap-2">
                   <Link
-                    href={`/events/${dat._id}/edit`}
-                    className={buttonVariants({ variant: "secondary" })}>
-                    Edit
+                    href={`/events/${dat._id}`}
+                    className={buttonVariants({ variant: "outline" })}>
+                    View
                   </Link>
-                  <DeleteEventButton id={dat._id} />
-                </div>
-              </CardFooter>
-            </Card>
-          ))}
+                  <div className="flex gap-2">
+                    <Link
+                      href={`/events/${dat._id}/edit`}
+                      className={buttonVariants({ variant: "secondary" })}>
+                      Edit
+                    </Link>
+                    <DeleteEventButton id={dat._id} />
+                  </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </Suspense>
         </div>
       )}
     </div>

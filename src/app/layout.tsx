@@ -1,9 +1,10 @@
 import { Footer } from "@/components/footer/Footer";
 import { Navbar } from "@/components/header/Navbar";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Oswald } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Navbar />
         {children}
         <Footer />
+        <ToastContainer></ToastContainer>
       </body>
     </html>
   );

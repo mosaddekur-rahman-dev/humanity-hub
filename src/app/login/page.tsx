@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 const formSchema = z.object({
   email: z
@@ -55,8 +56,8 @@ export default function LoginForm() {
     });
 
     if (data) {
+      toast.success("user logged in");
       redirect("/events");
-      console.log(data);
     }
 
     if (error) {
@@ -68,7 +69,10 @@ export default function LoginForm() {
     const data = await authClient.signIn.social({
       provider: "google",
     });
-    console.log(data);
+    if (data) {
+      redirect("/events");
+      toast.success("user logged in");
+    }
   };
 
   return (

@@ -13,6 +13,7 @@ export function Footer() {
                 alt="humanity hub logo"
                 width={25}
                 height={30}
+                className="w-auto h-auto"
               />
               <span className="text-2xl font-extrabold tracking-tight">
                 Humanity Hub
